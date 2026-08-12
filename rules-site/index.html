@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Searchable, clause-linked edition of the 2026 RoboCup Humanoid Soccer League Rule Book.">
+    <title>HSL Rulebook 2026</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#document">Skip to rulebook</a>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <button class="icon-button menu-button" id="menu-button" type="button" aria-label="Open navigation" title="Open navigation">&#9776;</button>
+        <a class="brand" href="#front-cover" aria-label="HSL Rulebook home">
+          <span class="brand-mark">HSL</span>
+          <span class="brand-copy">
+            <strong>Rulebook</strong>
+            <small>Humanoid Soccer League</small>
+          </span>
+        </a>
+        <!-- Values below are inert placeholders; app.js renders them from
+             data.meta so they cannot go stale after an import. -->
+        <div class="version-block" aria-label="Document version">
+          <span id="version-channel">Version</span>
+          <strong id="version-ref">&mdash;</strong>
+          <strong id="version-date">&mdash;</strong>
+        </div>
+        <div class="topbar-actions">
+          <button class="upstream-button" id="upstream-check" type="button" aria-expanded="false" aria-controls="upstream-panel">
+            <span class="upstream-dot" id="upstream-dot"></span>
+            <span id="upstream-button-text">Check updates</span>
+          </button>
+          <a class="pdf-button" href="../Rules.pdf" target="_blank" rel="noreferrer">Source PDF</a>
+        </div>
+      </header>
+
+      <section class="upstream-panel" id="upstream-panel" aria-labelledby="upstream-title" hidden>
+        <header>
+          <div>
+            <span class="upstream-kicker">HSL upstream</span>
+            <h2 id="upstream-title">Not checked</h2>
+          </div>
+          <button class="upstream-close" id="upstream-close" type="button" aria-label="Close upstream status" title="Close">&times;</button>
+        </header>
+        <p id="upstream-summary">Not checked yet.</p>
+        <dl>
+          <div><dt>Hub version</dt><dd id="upstream-local-ref">&mdash;</dd></div>
+          <div><dt>Hub PDF</dt><dd id="upstream-local-sha">&mdash;</dd></div>
+          <div><dt>Upstream main</dt><dd id="upstream-remote-sha">Not checked</dd></div>
+          <div><dt>Checked</dt><dd id="upstream-checked-at">Not checked</dd></div>
+        </dl>
+        <div class="upstream-links">
+          <a href="https://github.com/RoboCup-HumanoidSoccerLeague/HSL-Rules" target="_blank" rel="noreferrer">Repository</a>
+          <a href="https://github.com/RoboCup-HumanoidSoccerLeague/HSL-Rules/commits/main/Rules.pdf" target="_blank" rel="noreferrer">Rules.pdf history</a>
+        </div>
+      </section>
+
+      <aside class="sidebar" id="sidebar" aria-label="Rulebook navigation">
+        <div class="sidebar-search">
+          <label for="rule-search">Search the full rulebook</label>
+          <div class="search-control">
+            <span class="search-symbol" aria-hidden="true">/</span>
+            <input id="rule-search" type="search" autocomplete="off" spellcheck="false" placeholder="Rule, phrase, number...">
+            <button id="clear-search" class="clear-search" type="button" aria-label="Clear search" title="Clear search">&times;</button>
+          </div>
+          <div class="search-meta" id="search-meta" aria-live="polite">&mdash;</div>
+        </div>
+
+        <div class="sidebar-scroll">
+          <section class="search-panel" id="search-panel" hidden>
+            <div class="panel-heading">
+              <h2>Search results</h2>
+              <span id="result-count"></span>
+            </div>
+            <div class="search-results" id="search-results"></div>
+          </section>
+
+          <div id="browse-panel">
+            <section class="operational-index" aria-labelledby="operational-title">
+              <div class="panel-heading">
+                <h2 id="operational-title">Operational index</h2>
+              </div>
+              <div id="operational-links"></div>
+            </section>
+
+            <nav class="clause-index" aria-labelledby="clause-title">
+              <div class="panel-heading">
+                <h2 id="clause-title">Clause index</h2>
+                <span id="clause-coverage">&mdash;</span>
+              </div>
+              <div id="clause-links"></div>
+            </nav>
+          </div>
+        </div>
+      </aside>
+
+      <button class="sidebar-scrim" id="sidebar-scrim" type="button" aria-label="Close navigation"></button>
+
+      <main class="reader" id="document" tabindex="-1">
+        <div class="reader-inner">
+          <section class="document-status" aria-label="Source status">
+            <div>
+              <span class="eyebrow">Selected English source</span>
+              <h1>RoboCup Humanoid Soccer League Rule Book</h1>
+            </div>
+            <dl>
+              <div><dt>Edition</dt><dd id="edition-value">&mdash;</dd></div>
+              <div><dt>Source</dt><dd id="source-value">&mdash;</dd></div>
+              <div><dt>Coverage</dt><dd id="coverage-value">&mdash;</dd></div>
+            </dl>
+          </section>
+
+          <div class="reading-position" id="reading-position">
+            <span id="current-section">Front matter</span>
+            <span id="current-page">PDF 1 / 75</span>
+          </div>
+
+          <div class="pages" id="pages"></div>
+        </div>
+      </main>
+
+      <a class="back-to-top" href="#front-cover" aria-label="Back to top" title="Back to top">&#8593;</a>
+    </div>
+
+    <noscript>This rulebook requires JavaScript for search and navigation. The official PDF remains available above.</noscript>
+    <script src="data/rules-data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
