@@ -233,7 +233,7 @@
   }
 
   function pageMarkup(page) {
-    const imageAnchor = page.imagePrimary ? page.segments[0]?.contextId : null;
+    const imageAnchor = page.imagePrimary && page.physicalPage >= 70 ? page.segments[0]?.contextId : null;
     const imageMarkup = page.image
       ? `<figure class="page-visual${page.imagePrimary ? " primary" : ""}"${imageAnchor ? ` id="${escapeHtml(imageAnchor)}"` : ""}>
           <img src="${escapeHtml(page.image)}" alt="Official rendered image of PDF page ${page.physicalPage}" loading="lazy" width="1020" height="1320">
@@ -242,13 +242,16 @@
       : "";
     const segments = page.segments.map((segment) => segmentMarkup(segment, page)).join("");
     const content = page.imagePrimary
-      ? `${imageMarkup}<details class="appendix-extraction"><summary>Searchable extracted text</summary>${segments}</details>`
+      ? `${imageMarkup}<details class="source-extraction"><summary>Searchable extracted text</summary>${segments}</details>`
       : `${segments}${imageMarkup}`;
 
     return `<article class="page-sheet" id="page-${page.physicalPage}" data-physical-page="${page.physicalPage}" data-page-label="${escapeHtml(page.pageLabel)}">
       <header class="page-bar">
         <span>${escapeHtml(page.pageLabel)} <span aria-hidden="true">/</span> PDF ${page.physicalPage}</span>
-        <a href="${escapeHtml(page.pdfHref)}" target="_blank" rel="noreferrer">Open source page</a>
+        <span class="page-bar-meta">
+          <time datetime="${escapeHtml(data.meta.versionDate)}">${escapeHtml(data.meta.versionDate)}</time>
+          <a href="${escapeHtml(page.pdfHref)}" target="_blank" rel="noreferrer">Open source page</a>
+        </span>
       </header>
       <div class="page-content">${content}</div>
     </article>`;

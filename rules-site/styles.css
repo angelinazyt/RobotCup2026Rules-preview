@@ -773,6 +773,20 @@ mark {
   text-decoration: none;
 }
 
+.page-bar-meta {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.page-bar time {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
 .page-bar a:hover {
   text-decoration: underline;
 }
@@ -866,12 +880,12 @@ mark {
   line-height: 1.4;
 }
 
-.appendix-extraction {
+.source-extraction {
   margin-top: 20px;
   border-top: 1px solid var(--line);
 }
 
-.appendix-extraction summary {
+.source-extraction summary {
   padding: 12px 0;
   cursor: pointer;
   color: var(--field);
@@ -879,7 +893,7 @@ mark {
   font-weight: 750;
 }
 
-.appendix-extraction .source-text {
+.source-extraction .source-text {
   padding-top: 5px;
   color: var(--muted);
   font-size: 12px;
@@ -1055,6 +1069,10 @@ noscript {
 
   .page-bar {
     padding: 0 14px;
+  }
+
+  .page-bar-meta {
+    gap: 10px;
   }
 
   .page-content {
