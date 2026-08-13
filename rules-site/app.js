@@ -267,21 +267,25 @@
     return `<a class="${className}" href="#${escapeHtml(heading.id)}"><span>${escapeHtml(heading.label)}</span><span>${escapeHtml(heading.title)}</span></a>`;
   }
 
+  function makeLabel(heading) {
+    return `<span>${escapeHtml(heading.label)}</span><span>${escapeHtml(heading.title)}</span>`;
+  }
+
   // Groups a top-level entry with its subsections. Every anchor must appear
   // somewhere in this index; see the reachability assertion at startup.
   function collapsibleGroup(parent, children, parentClass) {
     if (!children.length) return makeLink(parent, parentClass);
     return `<details class="law-group" data-index-parent="${escapeHtml(parent.id)}">
-      <summary>${makeLink(parent, parentClass)}</summary>
-      <div class="subclause-list">${children.map((heading) => makeLink(heading, "subclause-link")).join("")}</div>
+      <summary class="${parentClass}" aria-label="Toggle ${escapeHtml(parent.label)} ${escapeHtml(parent.title)}">${makeLabel(parent)}</summary>
+      <div class="subclause-list">${makeLink(parent, "parent-clause-link")}${children.map((heading) => makeLink(heading, "subclause-link")).join("")}</div>
     </details>`;
   }
 
   function partGroup(parent, childrenMarkup, open = false) {
     if (!childrenMarkup) return makeLink(parent, "part-link");
     return `<details class="part-group" data-index-parent="${escapeHtml(parent.id)}"${open ? " open" : ""}>
-      <summary>${makeLink(parent, "part-link")}</summary>
-      <div class="part-child-list">${childrenMarkup}</div>
+      <summary class="part-link" aria-label="Toggle ${escapeHtml(parent.label)} ${escapeHtml(parent.title)}">${makeLabel(parent)}</summary>
+      <div class="part-child-list">${makeLink(parent, "parent-clause-link")}${childrenMarkup}</div>
     </details>`;
   }
 
