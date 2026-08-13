@@ -233,9 +233,11 @@
   }
 
   function pageMarkup(page) {
-    const imageAnchor = page.imagePrimary && page.physicalPage >= 70 ? page.segments[0]?.contextId : null;
+    const pageAnchors = page.anchorIds
+      .map((id) => `<span class="page-anchor" id="${escapeHtml(id)}" aria-hidden="true"></span>`)
+      .join("");
     const imageMarkup = page.image
-      ? `<figure class="page-visual${page.imagePrimary ? " primary" : ""}"${imageAnchor ? ` id="${escapeHtml(imageAnchor)}"` : ""}>
+      ? `<figure class="page-visual${page.imagePrimary ? " primary" : ""}">
           <img src="${escapeHtml(page.image)}" alt="Official rendered image of PDF page ${page.physicalPage}" loading="lazy" width="1020" height="1320">
           <figcaption>Official PDF page ${page.physicalPage}${page.printedPage ? ` / rulebook page ${page.printedPage}` : ""}</figcaption>
         </figure>`
@@ -253,7 +255,7 @@
           <a href="${escapeHtml(page.pdfHref)}" target="_blank" rel="noreferrer">Open source page</a>
         </span>
       </header>
-      <div class="page-content">${content}</div>
+      <div class="page-content">${pageAnchors}${content}</div>
     </article>`;
   }
 
@@ -326,7 +328,7 @@
       return partGroup(take(parent), childLinks);
     }).join("");
 
-    // Appendix A is the parent; each field has an overview and a detail sheet.
+    // Appendix A is the parent; each child field spans its overview and detail pages.
     const appendixParent = headingById.get("appendix-a");
     const appendixGroup = appendixParent
       ? collapsibleGroup(

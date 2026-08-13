@@ -822,7 +822,15 @@ mark {
 }
 
 .page-content {
+  position: relative;
   padding: 34px clamp(24px, 6vw, 62px) 42px;
+}
+
+.page-anchor {
+  display: block;
+  height: 0;
+  scroll-margin-top: 50px;
+  visibility: hidden;
 }
 
 .source-segment {
