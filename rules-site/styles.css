@@ -536,7 +536,10 @@ a {
 
 .law-group > summary,
 .part-group > summary {
+  position: relative;
+  padding-right: 36px;
   list-style: none;
+  cursor: pointer;
 }
 
 .law-group > summary::-webkit-details-marker,
@@ -544,21 +547,33 @@ a {
   display: none;
 }
 
-.part-group > summary .part-link {
-  position: relative;
-  padding-right: 28px;
-}
-
-.part-group > summary .part-link::after {
+.law-group > summary::after,
+.part-group > summary::after {
   content: "+";
   position: absolute;
+  top: 50%;
   right: 9px;
+  width: 20px;
+  text-align: center;
   color: var(--muted);
   font-weight: 400;
+  transform: translateY(-50%);
 }
 
-.part-group[open] > summary .part-link::after {
+.law-group[open] > summary::after,
+.part-group[open] > summary::after {
   content: "-";
+}
+
+.law-group > summary:hover::after,
+.part-group > summary:hover::after {
+  color: var(--red);
+}
+
+.law-group > summary:focus-visible,
+.part-group > summary:focus-visible {
+  outline: 2px solid var(--field);
+  outline-offset: -2px;
 }
 
 .part-child-list {
@@ -572,31 +587,26 @@ a {
 }
 
 .law-link {
-  position: relative;
   display: grid;
   grid-template-columns: 44px 1fr;
   gap: 6px;
-  padding: 9px 28px 9px 8px;
+  padding: 9px 8px;
   font-size: 12px;
   font-weight: 700;
-}
-
-.law-link::after {
-  content: "+";
-  position: absolute;
-  right: 9px;
-  color: var(--muted);
-  font-weight: 400;
-}
-
-.law-group[open] > summary .law-link::after {
-  content: "-";
 }
 
 .law-link span:first-child,
 .subclause-link span:first-child {
   color: var(--field);
   font-variant-numeric: tabular-nums;
+}
+
+.part-link[aria-current="location"],
+.law-link[aria-current="location"],
+.subclause-link[aria-current="location"] {
+  border-left-color: var(--red);
+  background: #fff;
+  color: var(--ink);
 }
 
 .subclause-list {

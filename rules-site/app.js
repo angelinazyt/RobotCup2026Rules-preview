@@ -271,7 +271,7 @@
   // somewhere in this index; see the reachability assertion at startup.
   function collapsibleGroup(parent, children, parentClass) {
     if (!children.length) return makeLink(parent, parentClass);
-    return `<details class="law-group">
+    return `<details class="law-group" data-index-parent="${escapeHtml(parent.id)}">
       <summary>${makeLink(parent, parentClass)}</summary>
       <div class="subclause-list">${children.map((heading) => makeLink(heading, "subclause-link")).join("")}</div>
     </details>`;
@@ -458,11 +458,29 @@
     }
   }
 
+  function revealClauseIndexPath(id) {
+    const links = [...clauseLinks.querySelectorAll('a[href^="#"]')];
+    links.forEach((link) => {
+      if (link.getAttribute("href") === `#${id}`) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+
+    const activeLink = links.find((link) => link.getAttribute("href") === `#${id}`);
+    if (!activeLink) return;
+
+    let group = activeLink.closest("details");
+    while (group) {
+      group.open = true;
+      group = group.parentElement?.closest("details") || null;
+    }
+  }
+
   function revealHashTarget() {
     const id = decodeURIComponent(window.location.hash.slice(1));
     if (!id) return;
     const target = document.getElementById(id);
     if (!target) return;
+    revealClauseIndexPath(target.dataset.context || id);
     const details = target.closest("details");
     if (details) details.open = true;
     window.setTimeout(() => target.scrollIntoView({ block: "start" }), 0);
