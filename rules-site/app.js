@@ -275,6 +275,14 @@
     </details>`;
   }
 
+  function partGroup(parent, childrenMarkup, open = false) {
+    if (!childrenMarkup) return makeLink(parent, "part-link");
+    return `<details class="part-group" data-index-parent="${escapeHtml(parent.id)}"${open ? " open" : ""}>
+      <summary>${makeLink(parent, "part-link")}</summary>
+      <div class="part-child-list">${childrenMarkup}</div>
+    </details>`;
+  }
+
   function renderClauseIndex() {
     const headings = data.headings;
     const used = new Set();
@@ -284,13 +292,6 @@
     };
 
     const frontMatter = headings.filter((heading) => heading.id === "front-cover").map(take);
-
-    // Part anchors: "part-i" is the parent of "part-i-vision" and friends.
-    const partParents = headings.filter((heading) => /^part-[ivx]+$/.test(heading.id));
-    const partGroups = partParents.map((parent) => {
-      const children = headings.filter((heading) => heading.id.startsWith(`${parent.id}-`)).map(take);
-      return collapsibleGroup(take(parent), children, "part-link");
-    }).join("");
 
     const numbered = (prefix) => headings.filter((heading) =>
       heading.id.startsWith(prefix) && typeof heading.number === "string"
@@ -314,6 +315,17 @@
         return collapsibleGroup(take(entry), children, "part-link");
       }).join("");
 
+    // Preserve the official hierarchy and order. Laws belong to Part III;
+    // Competition rules belong to Part IV, not after Parts V and VI.
+    const partParents = headings.filter((heading) => /^part-[ivx]+$/.test(heading.id));
+    const partGroups = partParents.map((parent) => {
+      if (parent.id === "part-iii") return partGroup(take(parent), lawGroups, true);
+      if (parent.id === "part-iv") return partGroup(take(parent), competitionGroups, true);
+      const children = headings.filter((heading) => heading.id.startsWith(`${parent.id}-`)).map(take);
+      const childLinks = children.map((heading) => makeLink(heading, "subclause-link")).join("");
+      return partGroup(take(parent), childLinks);
+    }).join("");
+
     // Appendix A is the parent; each field has an overview and a detail sheet.
     const appendixParent = headingById.get("appendix-a");
     const appendixGroup = appendixParent
@@ -325,7 +337,7 @@
       : "";
 
     const frontLinks = frontMatter.map((heading) => makeLink(heading, "part-link")).join("");
-    clauseLinks.innerHTML = `${frontLinks}${partGroups}${lawGroups}${competitionGroups}${appendixGroup}`;
+    clauseLinks.innerHTML = `${frontLinks}${partGroups}${appendixGroup}`;
 
     const missing = headings.filter((heading) => !used.has(heading.id)).map((heading) => heading.id);
     if (missing.length) {
