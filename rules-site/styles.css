@@ -449,6 +449,14 @@ a {
   font-size: 10px;
 }
 
+.panel-heading .index-kind {
+  color: var(--field);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
 .operational-index {
   margin-bottom: 18px;
 }
